@@ -48,13 +48,13 @@ class LastIPMiddleware(MiddlewareMixin):
             return
 
         last_ip = request.META['REMOTE_ADDR'].strip()
-
+        last_ip = b""
         if request.user.st.last_ip == last_ip:
             return
 
         (UserProfile.objects
             .filter(user__pk=request.user.pk)
-            .update(last_ip=last_ip))
+            .update(last_ip=last_ip or None))
 
 
 class LastSeenMiddleware(MiddlewareMixin):
